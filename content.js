@@ -14,22 +14,21 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-// Добавляем красную волнистую линию и тултип
 function highlightSelection(selection, predictionClass) {
   const range = selection.getRangeAt(0);
-  const wrapper = document.createElement("span");
-  wrapper.style.position = "relative";
-  wrapper.style.display = "inline-block";
 
-  const underline = document.createElement("span");
-  underline.style.borderBottom = "2px wavy red";
-  underline.style.cursor = "help";
-  underline.title = getTooltipText(predictionClass);
-  underline.style.fontFamily = "inherit";
-  underline.appendChild(range.extractContents());
+  const span = document.createElement("span");
+  span.style.borderBottom = "2px wavy red";
+  span.style.cursor = "help";
+  span.title = getTooltipText(predictionClass);
+  span.style.fontFamily = "inherit";
+  span.style.backgroundColor = "transparent"; // на всякий случай
 
-  wrapper.appendChild(underline);
-  range.insertNode(wrapper);
+  try {
+    range.surroundContents(span);
+  } catch (e) {
+    console.warn("Не удалось обернуть выделение:", e);
+  }
 }
 
 // Определяем текст подсказки по классу
