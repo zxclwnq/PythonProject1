@@ -16,20 +16,27 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 function highlightSelection(selection, predictionClass) {
   const range = selection.getRangeAt(0);
+  const selectedText = range.toString();
+  if (!selectedText.trim()) return;
 
-  const span = document.createElement("span");
-  span.style.borderBottom = "2px wavy red";
-  span.style.cursor = "help";
-  span.title = getTooltipText(predictionClass);
-  span.style.fontFamily = "inherit";
-  span.style.backgroundColor = "transparent"; // на всякий случай
+  // Создаём элемент с подчёркиванием
+  const underline = document.createElement("span");
+  underline.textContent = selectedText;
+  underline.style.borderBottom = "2px wavy red";
+  underline.style.cursor = "help";
+  underline.title = getTooltipText(predictionClass);
+  underline.style.fontFamily = "inherit";
+  underline.style.backgroundColor = "transparent";
+  underline.style.display = "inline";
 
-  try {
-    range.surroundContents(span);
-  } catch (e) {
-    console.warn("Не удалось обернуть выделение:", e);
-  }
+  // Удаляем содержимое и вставляем нашу обёртку
+  range.deleteContents();
+  range.insertNode(underline);
+
+  // Снимаем выделение, чтобы было аккуратно
+  selection.removeAllRanges();
 }
+
 
 // Определяем текст подсказки по классу
 function getTooltipText(predClass) {
