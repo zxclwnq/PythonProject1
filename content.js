@@ -1,4 +1,3 @@
-// Вставляем стили один раз
 (function injectStyles() {
   if (document.getElementById("suspect-underline-style")) return;
 
@@ -10,7 +9,7 @@
       text-decoration-thickness: 2px;
       cursor: help;
       position: relative;
-      font-family: Arial, sans-serif; /* Один и тот же шрифт */
+      font-family: Arial, sans-serif;
     }
     .suspect-underline:hover::after {
       content: attr(data-tooltip);
@@ -25,7 +24,7 @@
       z-index: 9999;
       font-size: 12px;
       pointer-events: none;
-      font-family: Arial, sans-serif; /* Один и тот же шрифт */
+      font-family: Arial, sans-serif;
     }
     .toast-message {
       background-color: #323232;
@@ -39,13 +38,12 @@
       transition: opacity 0.3s ease;
       max-width: 300px;
       pointer-events: none;
-      font-family: Arial, sans-serif; /* Один и тот же шрифт */
+      font-family: Arial, sans-serif;
     }
   `;
   document.head.appendChild(style);
 })();
 
-// Показывает всплывающее сообщение рядом с выделением
 function showToastNearSelection(message) {
   const selection = window.getSelection();
   if (!selection.rangeCount) return;
@@ -75,7 +73,6 @@ function showToastNearSelection(message) {
   }, 2000);
 }
 
-// Получаем сообщение от background.js
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "highlight" && request.data) {
     const { class: messageClass } = request.data;

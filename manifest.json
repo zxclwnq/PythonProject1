@@ -20,5 +20,12 @@
       "js": ["content.js"],
       "run_at": "document_end"
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "docs.html",
+    "default_icon": {
+      "16": "icon.png"
+    }
+  },
+  "options_page": "docs.html"
 }
