@@ -59,9 +59,3 @@ def validate(data: Message):
     label_response = get_label_from_deepseek(text)
     label_json = json.loads(label_response.replace("'", '"'))
     return {"class": label_json["label"][6:]}
-
-if __name__ == "__main__":
-    # Получаем порт из переменных окружения (Koyeb предоставляет порт через переменную PORT)
-    port = int(os.environ.get("PORT", 5000))
-    # Запуск приложения на адресе 0.0.0.0, чтобы приложение было доступно извне
-    uvicorn.run(app, host="0.0.0.0", port=port)
